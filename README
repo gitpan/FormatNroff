@@ -15,7 +15,10 @@ module.
 The purpose of this software is to provide a means to automatically
 convert HTML to nroff source, using tbl to support tables.
 
-This work is based upon the HTML::Formatter and HTML::Parse modules.
+This work is based upon the HTML::Formatter and HTML::Parse modules, 
+available as part of libwww-perl:
+	http://www.perl.com/CPAN/modules/by-module/HTML/libwww-perl-5.18.readme
+	http://www.perl.com/CPAN/modules/by-module/HTML/libwww-perl-5.18.tar.gz
 
 This software package is *NOT COMPLETE*, see the ToDo file.
 

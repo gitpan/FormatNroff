@@ -26,6 +26,8 @@ require HTML::FormatTableCell;
 
 use strict;
 use Carp;
+
+my $_max_tbl_cell = 300;
 	
 my %_formats = (
     left => "l",
@@ -78,7 +80,21 @@ sub output {
     }
     my $text = $self->{'text'};
     $text =~ s/ +/ /;
-    $formatter->out($text);
+# need to split to avoid buffer overrun in tbl, using $_max_tbl_cell as magic number
+    my $len = length($text);
+    while($len > 0) {
+	if($len < $_max_tbl_cell) {
+	    $formatter->out($text);	
+	    $len = 0;
+	} else {
+	    my $place = index($text, " ", $_max_tbl_cell/2);
+	    $formatter->out(substr($text, 0, $place));
+	    $formatter->out("\n");
+	    $text = substr($text, $place + 1);
+	    $len = length($text);
+	}
+    }
+
     if($self->{'header'} eq 'header') {
 	$formatter->font_end();
     }

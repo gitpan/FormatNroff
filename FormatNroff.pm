@@ -34,7 +34,13 @@ will be ignored and not processed. Content between the tags
  <META NAME="nroff-control" CONTENT="ignore_start">
  <META NAME="nroff-control" CONTENT="ignore_end">
 
-will be ignored.
+will be ignored. In the BODY META is not supported, but DIV may be used
+as follows:
+
+ <DIV TYPE="NROFF_IGNORE">
+ </DIV>
+
+In both the META and DIV uses, case is ignored.
 
 =head1 METHODS
 
@@ -62,6 +68,7 @@ sub default_values
      ignore => 0,
      man_header => 1, 
      page_width => "6",
+     divs => [],
      );
 }
 
@@ -373,7 +380,7 @@ sub td_end {
     $self->{'current_table'}->end_data();
 }
 
-=head2 $format_nroff->th_start();
+=head2 $format_nroff->th_start($node);
 
 Process <TH>, add table header cell
 
@@ -571,7 +578,7 @@ sub pre_out {
     $self->{'out'}++;
 }
 
-=head2 $format_nroff->nl();
+=head2 $format_nroff->nl($cnt);
 
 Output newline.
 
@@ -623,7 +630,7 @@ sub bullet {
     }
 }
 
-=head2 $format_nroff->textflow();
+=head2 $format_nroff->textflow($node);
 
 Output text or add it to table if currently inside a table
 If centered add .ce unless inside a table, if underlined add .ul,
@@ -671,7 +678,7 @@ sub textout {
     }
 }
 
-=head2 $format_nroff->blockquote_start();
+=head2 $format_nroff->blockquote_start($node);
 
 Start <BLOCKQUOTE>, by making a new paragraph, and indenting.
 
@@ -683,7 +690,7 @@ sub blockquote_start {
     $self->textout("\n.PP\n.in +5\n"); 
 }
 
-=head2 $format_nroff->blockquote_end();
+=head2 $format_nroff->blockquote_end($node);
 
 </BLOCKQUOTE>, by ending indent, and making a new paragraph
 
@@ -695,7 +702,48 @@ sub blockquote_end{
     $self->textout("\n.in -5\n.PP\n"); 
 }
 
-=head2 $format_nroff->meta_start();
+=head2 $format_nroff->div_start($node);
+
+Process DIV
+
+ <DIV TYPE="NROFF_IGNORE">
+    is used to ignore all subsequent content until the next
+ </DIV>
+
+ This allows HTML to be used which is not to be converted to HTML
+(such as navigation controls). Case is ignored in the type.
+
+In the header you probably should use
+ <META NAME="nroff-control" CONTENT="ignore_start">
+    is used to ignore all subsequent content until the next
+ <META NAME="nroff-control" CONTENT="ignore_end">
+
+=cut
+
+# all the push/pop is so we can safely ignore nested divs.
+
+sub div_start {
+    my($self, $node) = @_;
+
+    my $type = lc $node->attr('type');
+    
+    push(@ {$self->{'divs'}}, $type);
+
+    if($type =~ /nroff_ignore/) {
+	$self->{'ignore'} = 1;
+    }
+}
+
+sub div_end {
+    my($self, $node) = @_;
+    
+    my $type = pop( @{ $self->{'divs'} });
+
+    if($type =~ /nroff_ignore/) {
+	$self->{ignore} = 0;
+    }
+}
+=head2 $format_nroff->meta_start($node);
 
 Process <META> tag. 
 
@@ -704,23 +752,29 @@ Process <META> tag.
  <META NAME="nroff-control" CONTENT="ignore_end">
 
  This allows HTML to be used which is not to be converted to HTML
-(such as navigation controls).
+(such as navigation controls). Case is ignored.
+
+Strictly speaking META is only allowed in the HTML HEAD, so this
+META. In the body, you should use:
+
+    <DIV TYPE="NROFF_IGNORE">
+    </DIV>
 
 =cut
 
 sub meta_start {
     my($self, $node) = @_;
 
-    my $meta_name = $node->attr('NAME');
+    my $meta_name = lc $node->attr('NAME');
     unless ($meta_name eq 'nroff-control') {
-	return 1;
+        return 1;
     }
-    my $meta_content = $node->attr('CONTENT');
+    my $meta_content = lc $node->attr('CONTENT');
 
     if($meta_content eq 'ignore_start') {
-	$self->{'ignore'} = 1;
+        $self->{'ignore'} = 1;
     } else {
-	$self->{'ignore'} = 0;
+        $self->{'ignore'} = 0;
     }
 }
 
