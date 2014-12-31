@@ -1,23 +1,24 @@
-package HTML::FormatTableRowNroff;
+package HTML::FormatNroff::Table::RowNroff;
 
 =head1 NAME
 
-HTML::FormatTableRowNroff - Format HTML Table row for nroff
+HTML::FormatNroff::Table::RowNroff - Format HTML Table row for nroff
 
 =head1 SYNOPSIS
 
- require HTML::FormatTableRowNroff;
- $row = new HTML::FormatTableRowNroff(%attr);
+    require HTML::FormatNroff::Table::RowNroff;
+    $row = new HTML::FormatNroff::Table::RowNroff(%attr);
 
 =head1 DESCRIPTION
 
-The HTML::FormatTableRowNroff class is used to store information
+The HTML::FormatNroff::Table::RowNroff class is used to store information
 about a single row of a table. Once information about all the rows of
 the table has been recorded, an nroff tbl table may be created.
 
 The following attributes are supported:
-  align: 'left','center', or 'right' alignment of table row entries
-  valign: vertical alignment, 'top' or 'middle'
+
+    align: 'left','center', or 'right' alignment of table row entries
+    valign: vertical alignment, 'top' or 'middle'
 
 =head1 METHODS
 
@@ -35,9 +36,9 @@ use Carp;
 
 =head2 $nroff_row->output_format($last_row, $formatter, @widths);
 
-Create a tbl format line for the row. $last_row is true if this is the last row in the table. 
+Create a tbl format line for the row. $last_row is true if this is the last row in the table.
 
-$formatter is the formatter being used (e.g. 
+$formatter is the formatter being used (e.g.
 C<HTML::FormatNroff>).
 
 @widths is an array of width information for each cell in the current row,
@@ -46,24 +47,25 @@ specified in inches.
 =cut
 
 sub output_format {
-    my($self, $final, $formatter, @widths) = @_;
+    my ( $self, $final, $formatter, @widths ) = @_;
 
     my $cell;
     my $index = 0;
-    foreach $cell ( @ { $self->{'cells'} }) {
-	my $str = $cell->format_str($widths[$index]);
-	$formatter->out("$str ");
-	$index++;
+    foreach $cell ( @{ $self->{'cells'} } ) {
+        my $str = $cell->format_str( $widths[$index] );
+        $formatter->out("$str ");
+        $index++;
     }
     $cell = $self->{'current_cell'};
-    if(defined $cell && $cell ne "") {
-	my $str = $cell->format_str($widths[$index]);
-	$formatter->out("$str");
+    if ( defined $cell && $cell ne "" ) {
+        my $str = $cell->format_str( $widths[$index] );
+        $formatter->out("$str");
     }
-    if($final) {
-	$formatter->out(".\n");
-    } else {
-	$formatter->out("\n");
+    if ($final) {
+        $formatter->out(".\n");
+    }
+    else {
+        $formatter->out("\n");
     }
 }
 
@@ -99,10 +101,7 @@ sub end_element {
 
 =head1 SEE ALSO
 
-L<HTML::FormatTable>, L<HTML::FormatTableNroff>
-L<HTML::FormatTableRow>
-L<HTML::FormatTableCell>
-L<HTML::FormatTableCellNroff>
+L<HTML::FormatNroff::Table>
 
 =head1 COPYRIGHT
 
@@ -115,6 +114,6 @@ modify it under the same terms as Perl itself.
 
 Frederick Hirsch <f.hirsch@opengroup.org>
 
-=cut 
+=cut
 
 1;

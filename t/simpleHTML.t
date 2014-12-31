@@ -1,15 +1,16 @@
-print "1..1\n";
-
 use strict;
+use warnings;
+use lib 't/lib';
 
-require HTML::FormatNroff;
+use Test::More;
+use HTML::FormatNroff;
 use HTML::Parse;
-require HTML::Testing;
+use NRoffTesting;
 
-my $man_date = '20 Dec 97';
-my $name = "simpleHTML";
+my $man_date = '30 Dec 2014';
+my $name     = "simpleHTML";
 
-my $html_source =<<END_INPUT;
+my $html_source = <<END_INPUT;
 <HTML>
 <HEAD>
 <TITLE>This is the Title</TITLE>
@@ -21,20 +22,21 @@ It is very simple.
 </HTML>
 END_INPUT
 
-my $expected = ".TH \"$name\" \"1\" \"$man_date\" \"FormatNroff\"  \n";  
+my $expected = ".TH \"$name\" \"1\" \"$man_date\" \"FormatNroff\"  \n";
 
-$expected .=<<END_EXPECTED;
+$expected .= <<END_EXPECTED;
 .PP
- This is the body. It is very simple.  
+ This is the body. It is very simple.
 END_EXPECTED
 
-my $tester = new HTML::Testing(name => $name,
-			       man_date => $man_date,
-			       project => 'FormatNroff',
-			       man_header => 1,
-			       expected => $expected,
-			       html_source => $html_source
-			       );
+my $tester = NRoffTesting->new(
+    name        => $name,
+    man_date    => $man_date,
+    project     => 'FormatNroff',
+    man_header  => 1,
+    expected    => $expected,
+    html_source => $html_source
+);
 $tester->run_test();
 
-1;
+done_testing;

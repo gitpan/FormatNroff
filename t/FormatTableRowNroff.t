@@ -1,8 +1,11 @@
-print "1..1\n";
+use strict;
+use warnings;
+use lib 't/lib';
 
+use Test::More;
 require HTML::FormatTableRowNroff;
 
-my $table_row = new HTML::FormatTableRowNroff(align => 'center');
+my $table_row = HTML::FormatTableRowNroff->new(align => 'center');
 
 my $str1 = 'ghi';
 my $str2 = 'jkl';
@@ -15,14 +18,6 @@ $table_row->end_element();
 
 my $whole_str = $str1 . $str2;
 
-if($table_row->text() eq $whole_str) {
-    print "ok\n";
-} else {
-    print STDERR "text \"$whole_str\" check failed\n";
+is $table_row->text, $whole_str;
 
-    print STDERR $table_row->text(), "not equal to \'abcdef\'\n";
-    print "not ok\n";
-}
-
-1;
-
+done_testing;

@@ -1,43 +1,22 @@
-print "1..4\n";
+use strict;
+use warnings;
+use lib 't/lib';
 
-require HTML::FormatTableCellNroff;
+use Test::More;
+use HTML::FormatTableCellNroff;
 
-my $table_cell = new HTML::FormatTableCellNroff(colspan => 2,
-						align => 'center');
+my $table_cell = HTML::FormatTableCellNroff->new( colspan => 2, align => 'center' );
 
-if($table_cell->colspan() == 2) {
-    print "ok\n";
-} else {
-    print STDERR "colspan check failed\n";
-    print "not ok\n";
-}
-
-if($table_cell->alignment() eq 'center') {
-    print "ok\n";
-} else {
-    print STDERR "align check failed\n";
-    print "not ok\n";
-}
+is $table_cell->colspan,   2,        "colspan ok";
+is $table_cell->alignment, 'center', 'alignment ok';
 
 $table_cell->add_text('abc');
 $table_cell->add_text('def');
 
-if($table_cell->text() eq 'abcdef') {
-    print "ok\n";
-} else {
-    print STDERR "text check failed\n";
-    print "not ok\n";
-}
+is $table_cell->text, 'abcdef', 'text ok';
 
 my $expected = 'c s';
-my $format = $table_cell->format_str();
-if($format eq $expected) {
-    print "ok\n";
-} else {
-    print STDERR "format string check failed\n";
-    print STDERR "Format string is \"$format\", not \"$expected\"\n";
-    print "not ok\n";
-}
+my $format   = $table_cell->format_str();
+is $format, $expected;
 
-1;
-
+done_testing;

@@ -1,10 +1,13 @@
-print "1..1\n";
+use strict;
+use warnings;
+use lib 't/lib';
 
-print STDERR "Empty Subclass Test\n";
-
-require HTML::FormatNroffSub;
+use Test::More;
+use HTML::FormatNroffSub;
 use HTML::Parse;
-require HTML::Testing;
+use NRoffTesting;
+
+note "Empty Subclass Test\n";
 
 my $man_date = '20 Dec 97';
 my $name = 'FormatNroffSub';
@@ -25,7 +28,7 @@ $expected .=<<'END_EXPECTED' ;
 .SH First \fBSection\fR
 
 .PP
- with some \fItext\fR     
+ with some \fItext\fR
 .in 0
 .sp
 .TS
@@ -73,23 +76,14 @@ T}
 
 END_EXPECTED
 
-my $tester = new HTML::Testing(name => $name,
-			       man_date => $man_date,
-			       project => 'HTML',
-			       man_header => 1,
-			       expected => $expected,
-			       html_source => $html_source
-			       );
+my $tester = NRoffTesting->new(
+    name        => $name,
+    man_date    => $man_date,
+    project     => 'HTML',
+    man_header  => 1,
+    expected    => $expected,
+    html_source => $html_source
+);
 $tester->run_test();
 
-
-1;
-
-
-
-
-
-
-
-
-
+done_testing;

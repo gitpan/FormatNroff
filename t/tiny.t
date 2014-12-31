@@ -1,8 +1,12 @@
-print "1..1\n";
 
-require HTML::FormatNroff;
+use strict;
+use warnings;
+use lib 't/lib';
+
+use Test::More;
+use HTML::FormatNroff;
 use HTML::Parse;
-require HTML::Testing;
+use NRoffTesting;
 
 my $man_date = '20 Dec 97';
 my $name = "tiny";
@@ -19,22 +23,14 @@ $expected .=<<'END_EXPECTED' ;
 This is some text. This is some more text.
 END_EXPECTED
 
-my $tester = new HTML::Testing(name => $name,
-			       man_date => $man_date,
-			       project => 'HTML',
-			       man_header => 1,
-			       expected => $expected,
-			       html_source => $html_source
-			       );
+my $tester = NRoffTesting->new(
+    name        => $name,
+    man_date    => $man_date,
+    project     => 'HTML',
+    man_header  => 1,
+    expected    => $expected,
+    html_source => $html_source
+);
 $tester->run_test();
 
-1;
-
-
-
-
-
-
-
-
-
+done_testing;

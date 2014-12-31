@@ -1,17 +1,17 @@
-package HTML::FormatTableRow;
+package HTML::FormatNroff::Table::Row;
 
 =head1 NAME
 
-HTML::FormatTableRow - Format HTML Table row
+HTML::FormatNRoff::Table::Row - Format HTML Table row
 
 =head1 SYNOPSIS
 
- require HTML::FormatTableRow;
- @ISA = qw(HTML::FormatTableRow);
+ require HTML::FormatNRoff::Table::Row;
+ @ISA = qw(HTML::FormatNRoff::Table::Row);
 
 =head1 DESCRIPTION
 
-The HTML::FormatTableRow is used to record information and process
+The HTML::FormatNRoff::Table::Row is used to record information and process
 a table row. This is a base class.
 
 The following attributes are supported:
@@ -27,7 +27,7 @@ require 5.004;
 use strict;
 use Carp;
 
-=head2 $table_row = new HTML::FormatTableRow(%attr);
+=head2 $table_row = new HTML::FormatNRoff::Table::Row(%attr);
 
 The following attributes are supported:
   align: 'left','center', or 'right' alignment of table row entries
@@ -38,7 +38,7 @@ The following attributes are supported:
 sub new {
     my($class, %attr) = @_;
 
-    my $self = bless {	
+    my $self = bless {
 	align => $attr{'align'} || 'left',
 	valign => $attr{'valign'} || 'middle',
 	current_cell => undef,
@@ -48,7 +48,7 @@ sub new {
 
     return $self;
 }
- 
+
 =head2 $table_row->add_element(%attr);
 
 Add table element - should be subclassed.
@@ -61,7 +61,7 @@ sub add_element {
     croak "Should be subclassed.\n";
 }
 
- 
+
 =head2 $table_row->end_element();
 
 End table element - should be subclassed.
@@ -83,7 +83,7 @@ Add text to cell.
 sub add_text {
     my($self, $text) = @_;
 
-    if($self->{'ended'} != 0) { 
+    if($self->{'ended'} != 0) {
 	return;
     }
 
@@ -114,7 +114,7 @@ sub text {
 
 =head2 $table_row->widths($final, $array_ref);
 
-push the array of cell widths (in characters) 
+push the array of cell widths (in characters)
 onto the array specified using the array reference $array_ref.
 
 =cut
@@ -160,7 +160,7 @@ sub output {
 
 =head1 SEE ALSO
 
-L<HTML::FormatTable>
+L<HTML::FormatNroff::Table>
 
 =head1 COPYRIGHT
 
@@ -173,7 +173,7 @@ modify it under the same terms as Perl itself.
 
 Frederick Hirsch <f.hirsch@opengroup.org>
 
-=cut 
+=cut
 
 1;
 

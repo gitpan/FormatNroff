@@ -1,58 +1,213 @@
-FormatNroff
+NAME
+    HTML::FormatNroff - Format HTML as nroff man page
 
-Copyright (c) 1998 Frederick Hirsch
+SYNOPSIS
+        use HTML::FormatNroff;
+        my $html = parse_htmlfile("test.html");
+        my $formatter = HTML::FormatNroff->new(name => 'trial', project => 'MyProject');
+        print $formatter->format($html);
 
-This library is free software; 
-you can redistribute it and/or modify it under the same terms as Perl itself. 
+DESCRIPTION
+    The HTML::FormatNroff is a formatter that outputs nroff source for the
+    nroff text processor, using man macros, and tbl commands for table
+    processing.
 
-WARNING: THIS IS Beta SOFTWARE. IT IS POSSIBLY UNRELIABLE!
+    The result of using the formatter must be processed as follows, when
+    directing output to the screen (assume output is in the file
+    "text.nroff"):
 
-It requires perl 5.004, since it assumes that version of the HTML::Formatter
-module.
+        tbl -TX text.nroff | nroff -man | col
 
-------------------------------------------------
+    If the output is to be printed, on an laser printer for example, a
+    command similar to the following must be used:
 
-The purpose of this software is to provide a means to automatically
-convert HTML to nroff source, using tbl to support tables.
+        tbl -TX text.nroff | nroff -man -Tlj | lpr
 
-This work is based upon the HTML::Formatter and HTML::Parse modules, 
-available as part of libwww-perl:
-	http://www.perl.com/CPAN/modules/by-module/HTML/libwww-perl-5.18.readme
-	http://www.perl.com/CPAN/modules/by-module/HTML/libwww-perl-5.18.tar.gz
+    Meta tags may be placed in the HTML so that portions of the HTML will be
+    ignored and not processed. Content between the tags
 
-This software package is *NOT COMPLETE*, see the ToDo file.
+        <META NAME="nroff-control" CONTENT="ignore_start">
+        <META NAME="nroff-control" CONTENT="ignore_end">
 
-Available POD Documentation (see perldoc,pod2html,etc):
+    will be ignored. In the BODY META is not supported, but DIV may be used
+    as follows:
 
-HTML::FormatNroff.3
-HTML::FormatNroffSub.3
-HTML::FormatTable.3
-HTML::FormatTableCell.3
-HTML::FormatTableCellNroff.3
-HTML::FormatTableNroff.3
-HTML::FormatTableRow.3
-HTML::FormatTableRowNroff.3
-HTML::Testing.3
+        <DIV TYPE="NROFF_IGNORE">
+        </DIV>
 
-=====================================================================
+    In both the META and DIV uses, case is ignored.
 
-INSTALLING:
+METHODS
+  $format_nroff->dt_start();
+    Start a definition term "<DT>", using a temporary indent and vertical
+    space.
 
-perl Makefile.PL
-make
-make test
-make install (If all tests pass)
+  $format_nroff->dd_start();
+    Start a data definition, "<DD>", using a temporary indent.
 
-PROBLEMS:
-Mail me (f.hirsch@opengroup.org) the following info:
+  $format_nroff->configure($arg);
+    Configure the nroff formatter, setting the attributes passed in the $arg
+    attribute (hash reference)
 
-1. The output of:
+  $format_nroff->begin();
+    Begin HTML formatting.
 
-    perl Makefile.PL           (do a make realclean first)
-    make
-    make test
+  $format_nroff->end();
+    End HTML formatting.
 
-2. The output of:
-    perl -V
+  $format_nroff->html_start();
+    Process "<HTML>" start tag. Create the man page header based on saved
+    attributes, unless the attribute $format_nroff->{'man_header'} is not
+    set. This generates the following header:
 
+        .TH "name" section "date" "project"
+
+  $format_nroff->font_start($font);
+    Start the font specified by the $font character (e.g. B, or I). The font
+    is remembered so nested fonts are handled correctly.
+
+  $format_nroff->font_end();
+    End the current font, returning to the previous one.
+
+  $format_nroff->i_start();
+    Process "<I>" tag.
+
+  $format_nroff->i_end();
+    Process "</I>" tag.
+
+  $format_nroff->b_start();
+    Process "<B>" tag.
+
+  $format_nroff->b_end();
+    Process "</B>" tag.
+
+  $format_nroff->table_start($node);
+    Process "<TABLE>", start table processing. $node is the current
+    html_parser node.
+
+        Pass on the $format_nroff->{'page_width'} to FormatTableNroff
+
+  $format_nroff->tr_start($node);
+    Process "<TR>", add table row.
+
+  $format_nroff->tr_end();
+    End the table row "</TR>"
+
+  $format_nroff->a_start();
+    "<A>" is ignored.
+
+  $format_nroff->a_end();
+    "</A>" is ignored.
+
+  $format_nroff->td_start($node);
+    Process "<TD>", add table cell
+
+  $format_nroff->td_end();
+    Process "</TD>", end table cell
+
+  $format_nroff->th_start($node);
+    Process "<TH>", add table header cell
+
+  $format_nroff->th_end();
+    Process "</TH>", end table header cell
+
+  $format_nroff->table_end();
+    Process "</TABLE>". Actually output entire table.
+
+  $format_nroff->p_start();
+    Process "<P>".
+
+  $format_nroff->p_end();
+    Process "</P>" by doing nothing.
+
+  $format_nroff->goto_lm()
+    goto_lm does nothing.
+
+  $format_nroff->br_start();
+    Process "<BR>".
+
+  $format_nroff->hr_start();
+    Process "<HR>"
+
+  $format_nroff->header_start();
+    Process "<H?>" simply using .SH
+
+  $format_nroff->header_end();
+    Process "</H?>" simply outputing newline
+
+  $format_nroff->out($text);
+    Output text.
+
+  $format_nroff->pre_out($pre);
+    Output "<PRE>" text.
+
+  $format_nroff->nl($cnt);
+    Output newline.
+
+  $format_nroff->adjust_lm($indent);
+    adjust indent (left margin)
+
+  $format_nroff->adjust_rm();
+    not used.
+
+  $format_nroff->bullet($tag);
+    output the bullet, using a temporary indent and the $tag
+
+  $format_nroff->textflow($node);
+    Output text or add it to table if currently inside a table If centered
+    add .ce unless inside a table, if underlined add .ul, if the left margin
+    is adjusted use a .ti for every new line.
+
+  $format_nroff->blockquote_start($node);
+    Start "<BLOCKQUOTE>", by making a new paragraph, and indenting.
+
+  $format_nroff->blockquote_end($node);
+    "</BLOCKQUOTE>", by ending indent, and making a new paragraph
+
+  $format_nroff->div_start($node);
+    Process DIV
+
+        <DIV TYPE="NROFF_IGNORE">
+            is used to ignore all subsequent content until the next
+        </DIV>
+
+    This allows HTML to be used which is not to be converted to HTML (such
+    as navigation controls). Case is ignored in the type.
+
+    In the header you probably should use
+
+        <META NAME="nroff-control" CONTENT="ignore_start">
+            is used to ignore all subsequent content until the next
+        <META NAME="nroff-control" CONTENT="ignore_end">
+
+  $format_nroff->meta_start($node);
+    Process "<META>" tag.
+
+        <META NAME="nroff-control" CONTENT="ignore_start">
+            is used to ignore all subsequent content until the next
+        <META NAME="nroff-control" CONTENT="ignore_end">
+
+    This allows HTML to be used which is not to be converted to HTML (such
+    as navigation controls). Case is ignored.
+
+    Strictly speaking META is only allowed in the HTML HEAD, so this META.
+    In the body, you should use:
+
+        <DIV TYPE="NROFF_IGNORE">
+        </DIV>
+
+SEE ALSO
+    HTML::Formatter, HTML::FormatTableCell, HTML::FormatTableCellNroff,
+    HTML::FormatTableNroff, HTML::FormatTableRow, HTML::FormatTableRowNroff
+
+COPYRIGHT
+    Copyright (c) 1997 Frederick Hirsch. All rights reserved.
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+AUTHORS
+    Frederick Hirsch <f.hirsch@opengroup.org>
+
+    Stefan G. <minimal@cpan.org>
 
