@@ -51,29 +51,29 @@ In both the META and DIV uses, case is ignored.
 
 # METHODS
 
-## $format\_nroff->dt\_start();
+## dt\_start();
 
 Start a definition term `<DT>`,
 using a temporary indent and vertical space.
 
-## $format\_nroff->dd\_start();
+## dd\_start();
 
 Start a data definition, `<DD>`, using a temporary indent.
 
-## $format\_nroff->configure($arg);
+## configure($arg);
 
 Configure the nroff formatter, setting the attributes passed in the
 $arg attribute (hash reference)
 
-## $format\_nroff->begin();
+## begin();
 
 Begin HTML formatting.
 
-## $format\_nroff->end();
+## end();
 
 End HTML formatting.
 
-## $format\_nroff->html\_start();
+## html\_start();
 
 Process `<HTML>` start tag. Create the man page header based
 on saved attributes, unless the attribute
@@ -83,32 +83,32 @@ $format\_nroff->{'man\_header'} is not set. This generates the following header:
 .TH "name" section "date" "project"
 ```
 
-## $format\_nroff->font\_start($font);
+## font\_start($font);
 
 Start the font specified by the $font character (e.g. B, or I).
 The font is remembered so nested fonts are handled correctly.
 
-## $format\_nroff->font\_end();
+## font\_end();
 
 End the current font, returning to the previous one.
 
-## $format\_nroff->i\_start();
+## i\_start();
 
 Process `<I>` tag.
 
-## $format\_nroff->i\_end();
+## i\_end();
 
 Process `</I>` tag.
 
-## $format\_nroff->b\_start();
+## b\_start();
 
 Process `<B>` tag.
 
-## $format\_nroff->b\_end();
+## b\_end();
 
 Process `</B>` tag.
 
-## $format\_nroff->table\_start($node);
+## table\_start($node);
 
 Process `<TABLE>`, start table processing. $node
 is the current html\_parser node.
@@ -117,109 +117,109 @@ is the current html\_parser node.
 Pass on the $format_nroff->{'page_width'} to FormatTableNroff
 ```
 
-## $format\_nroff->tr\_start($node);
+## tr\_start($node);
 
 Process `<TR>`, add table row.
 
-## $format\_nroff->tr\_end();
+## tr\_end();
 
 End the table row `</TR>`
 
-## $format\_nroff->a\_start();
+## a\_start();
 
 `<A>` is ignored.
 
-## $format\_nroff->a\_end();
+## a\_end();
 
 `</A>` is ignored.
 
-## $format\_nroff->td\_start($node);
+## td\_start($node);
 
 Process `<TD>`, add table cell
 
-## $format\_nroff->td\_end();
+## td\_end();
 
 Process `</TD>`, end table cell
 
-## $format\_nroff->th\_start($node);
+## th\_start($node);
 
 Process `<TH>`, add table header cell
 
-## $format\_nroff->th\_end();
+## th\_end();
 
 Process `</TH>`, end table header cell
 
-## $format\_nroff->table\_end();
+## table\_end();
 
 Process `</TABLE>`. Actually output entire table.
 
-## $format\_nroff->p\_start();
+## p\_start();
 
 Process `<P>`.
 
-## $format\_nroff->p\_end();
+## p\_end();
 
 Process `</P>` by doing nothing.
 
-## $format\_nroff->goto\_lm()
+## goto\_lm()
 
 goto\_lm does nothing.
 
-## $format\_nroff->br\_start();
+## br\_start();
 
 Process `<BR>`.
 
-## $format\_nroff->hr\_start();
+## hr\_start();
 
 Process `<HR>`
 
-## $format\_nroff->header\_start();
+## header\_start();
 
 Process `<H?>` simply using .SH
 
-## $format\_nroff->header\_end();
+## header\_end();
 
 Process `</H?>` simply outputing newline
 
-## $format\_nroff->out($text);
+## out($text);
 
 Output text.
 
-## $format\_nroff->pre\_out($pre);
+## pre\_out($pre);
 
 Output `<PRE>` text.
 
-## $format\_nroff->nl($cnt);
+## nl($cnt);
 
 Output newline.
 
-## $format\_nroff->adjust\_lm($indent);
+## adjust\_lm($indent);
 
 adjust indent (left margin)
 
-## $format\_nroff->adjust\_rm();
+## adjust\_rm();
 
 not used.
 
-## $format\_nroff->bullet($tag);
+## bullet($tag);
 
 output the bullet, using a temporary indent and the $tag
 
-## $format\_nroff->textflow($node);
+## textflow($node);
 
 Output text or add it to table if currently inside a table
 If centered add .ce unless inside a table, if underlined add .ul,
 if the left margin is adjusted use a .ti for every new line.
 
-## $format\_nroff->blockquote\_start($node);
+## blockquote\_start($node);
 
 Start `<BLOCKQUOTE>`, by making a new paragraph, and indenting.
 
-## $format\_nroff->blockquote\_end($node);
+## blockquote\_end($node);
 
 `</BLOCKQUOTE>`, by ending indent, and making a new paragraph
 
-## $format\_nroff->div\_start($node);
+## div\_start($node);
 
 Process DIV
 
@@ -240,7 +240,7 @@ In the header you probably should use
 <META NAME="nroff-control" CONTENT="ignore_end">
 ```
 
-## $format\_nroff->meta\_start($node);
+## meta\_start($node);
 
 Process `<META>` tag.
 
@@ -263,12 +263,7 @@ META. In the body, you should use:
 
 # SEE ALSO
 
-[HTML::Formatter](https://metacpan.org/pod/HTML::Formatter),
-[HTML::FormatTableCell](https://metacpan.org/pod/HTML::FormatTableCell),
-[HTML::FormatTableCellNroff](https://metacpan.org/pod/HTML::FormatTableCellNroff),
-[HTML::FormatTableNroff](https://metacpan.org/pod/HTML::FormatTableNroff),
-[HTML::FormatTableRow](https://metacpan.org/pod/HTML::FormatTableRow),
-[HTML::FormatTableRowNroff](https://metacpan.org/pod/HTML::FormatTableRowNroff)
+[HTML::Formatter](https://metacpan.org/pod/HTML::Formatter)
 
 # COPYRIGHT
 

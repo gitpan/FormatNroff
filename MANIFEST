@@ -12,10 +12,10 @@ lib/HTML/FormatNroff.pm
 lib/HTML/FormatNroff/Sub.pm
 lib/HTML/FormatNroff/Table.pm
 lib/HTML/FormatNroff/Table/Cell.pm
-lib/HTML/FormatNroff/Table/CellNroff.pm
+lib/HTML/FormatNroff/Table/Cell/Nroff.pm
 lib/HTML/FormatNroff/Table/Nroff.pm
 lib/HTML/FormatNroff/Table/Row.pm
-lib/HTML/FormatNroff/Table/RowNroff.pm
+lib/HTML/FormatNroff/Table/Row/Nroff.pm
 t/FormatNroffSub.t
 t/FormatTableCellNroff.t
 t/FormatTableRowNroff.t

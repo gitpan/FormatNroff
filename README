@@ -38,133 +38,133 @@ DESCRIPTION
     In both the META and DIV uses, case is ignored.
 
 METHODS
-  $format_nroff->dt_start();
+  dt_start();
     Start a definition term "<DT>", using a temporary indent and vertical
     space.
 
-  $format_nroff->dd_start();
+  dd_start();
     Start a data definition, "<DD>", using a temporary indent.
 
-  $format_nroff->configure($arg);
+  configure($arg);
     Configure the nroff formatter, setting the attributes passed in the $arg
     attribute (hash reference)
 
-  $format_nroff->begin();
+  begin();
     Begin HTML formatting.
 
-  $format_nroff->end();
+  end();
     End HTML formatting.
 
-  $format_nroff->html_start();
+  html_start();
     Process "<HTML>" start tag. Create the man page header based on saved
     attributes, unless the attribute $format_nroff->{'man_header'} is not
     set. This generates the following header:
 
         .TH "name" section "date" "project"
 
-  $format_nroff->font_start($font);
+  font_start($font);
     Start the font specified by the $font character (e.g. B, or I). The font
     is remembered so nested fonts are handled correctly.
 
-  $format_nroff->font_end();
+  font_end();
     End the current font, returning to the previous one.
 
-  $format_nroff->i_start();
+  i_start();
     Process "<I>" tag.
 
-  $format_nroff->i_end();
+  i_end();
     Process "</I>" tag.
 
-  $format_nroff->b_start();
+  b_start();
     Process "<B>" tag.
 
-  $format_nroff->b_end();
+  b_end();
     Process "</B>" tag.
 
-  $format_nroff->table_start($node);
+  table_start($node);
     Process "<TABLE>", start table processing. $node is the current
     html_parser node.
 
         Pass on the $format_nroff->{'page_width'} to FormatTableNroff
 
-  $format_nroff->tr_start($node);
+  tr_start($node);
     Process "<TR>", add table row.
 
-  $format_nroff->tr_end();
+  tr_end();
     End the table row "</TR>"
 
-  $format_nroff->a_start();
+  a_start();
     "<A>" is ignored.
 
-  $format_nroff->a_end();
+  a_end();
     "</A>" is ignored.
 
-  $format_nroff->td_start($node);
+  td_start($node);
     Process "<TD>", add table cell
 
-  $format_nroff->td_end();
+  td_end();
     Process "</TD>", end table cell
 
-  $format_nroff->th_start($node);
+  th_start($node);
     Process "<TH>", add table header cell
 
-  $format_nroff->th_end();
+  th_end();
     Process "</TH>", end table header cell
 
-  $format_nroff->table_end();
+  table_end();
     Process "</TABLE>". Actually output entire table.
 
-  $format_nroff->p_start();
+  p_start();
     Process "<P>".
 
-  $format_nroff->p_end();
+  p_end();
     Process "</P>" by doing nothing.
 
-  $format_nroff->goto_lm()
+  goto_lm()
     goto_lm does nothing.
 
-  $format_nroff->br_start();
+  br_start();
     Process "<BR>".
 
-  $format_nroff->hr_start();
+  hr_start();
     Process "<HR>"
 
-  $format_nroff->header_start();
+  header_start();
     Process "<H?>" simply using .SH
 
-  $format_nroff->header_end();
+  header_end();
     Process "</H?>" simply outputing newline
 
-  $format_nroff->out($text);
+  out($text);
     Output text.
 
-  $format_nroff->pre_out($pre);
+  pre_out($pre);
     Output "<PRE>" text.
 
-  $format_nroff->nl($cnt);
+  nl($cnt);
     Output newline.
 
-  $format_nroff->adjust_lm($indent);
+  adjust_lm($indent);
     adjust indent (left margin)
 
-  $format_nroff->adjust_rm();
+  adjust_rm();
     not used.
 
-  $format_nroff->bullet($tag);
+  bullet($tag);
     output the bullet, using a temporary indent and the $tag
 
-  $format_nroff->textflow($node);
+  textflow($node);
     Output text or add it to table if currently inside a table If centered
     add .ce unless inside a table, if underlined add .ul, if the left margin
     is adjusted use a .ti for every new line.
 
-  $format_nroff->blockquote_start($node);
+  blockquote_start($node);
     Start "<BLOCKQUOTE>", by making a new paragraph, and indenting.
 
-  $format_nroff->blockquote_end($node);
+  blockquote_end($node);
     "</BLOCKQUOTE>", by ending indent, and making a new paragraph
 
-  $format_nroff->div_start($node);
+  div_start($node);
     Process DIV
 
         <DIV TYPE="NROFF_IGNORE">
@@ -180,7 +180,7 @@ METHODS
             is used to ignore all subsequent content until the next
         <META NAME="nroff-control" CONTENT="ignore_end">
 
-  $format_nroff->meta_start($node);
+  meta_start($node);
     Process "<META>" tag.
 
         <META NAME="nroff-control" CONTENT="ignore_start">
@@ -197,8 +197,7 @@ METHODS
         </DIV>
 
 SEE ALSO
-    HTML::Formatter, HTML::FormatTableCell, HTML::FormatTableCellNroff,
-    HTML::FormatTableNroff, HTML::FormatTableRow, HTML::FormatTableRowNroff
+    HTML::Formatter
 
 COPYRIGHT
     Copyright (c) 1997 Frederick Hirsch. All rights reserved.

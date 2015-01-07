@@ -4,11 +4,10 @@ use warnings;
 use lib 't/lib';
 
 use Test::More;
-use HTML::FormatNroffSub;
 use HTML::Parse;
+use NRoffTesting;
 
 $HTML::Parse::IMPLICIT_TAGS = 0;
-use NRoffTesting;
 
 my $man_date = '20 Dec 97';
 my $name = "ceul";

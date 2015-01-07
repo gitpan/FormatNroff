@@ -65,30 +65,46 @@ HTML::FormatNroff::Table - base class for formatting HTML Tables
 
 =head1 SYNOPSIS
 
- require HTML::FormatNroff::Table;
- @ISA = qw(HTML::FormatNroff::Table);
+ use HTML::FormatNroff::Table;
+ use parent 'HTML::FormatNroff::Table';
 
 =head1 DESCRIPTION
 
 The HTML::FormatNroff::Table is a base class for formatting HTML tables.
-It is used by a class such as HTML::FormatTableNroff, which is called by
+It is used by a class such as HTML::FormatNroff::Table::Nroff, which is called by
 the formatter HTML::FormatNroff when tables are processed.
 
 =head1 METHODS
 
-=head2 $table = new HTML::FormatNroff::Table($formatter, %attr);
+=head2 new
 
 Create new table representation. Formatter is used to output
 table (e.g. $formatter is C<HTML::FormatNroff>)
 
+    my $table = HTML::FormatNroff::Table->new($formatter, %attr);
+
 Attributes include
 
- align: table alignment (default is 'left'),
- tab: the character used in tbl to separate table cells.
-       (the default is '%', and should be a character not included
-        in table text)
- page_width: the page width in inches (e.g. "6")
- width: width of table, string including the percent (eg "100%")
+=over
+
+=item align
+
+table alignment (default is 'left'),
+
+=item tab
+
+the character used in tbl to separate table cells.  (the default is '%',
+and should be a character not included in table text)
+
+=item page_width
+
+the page width in inches (e.g. "6")
+
+=item width
+
+width of table, string including the percent (eg "100%")
+
+=back
 
 =head2 $table->end_row();
 

@@ -3,9 +3,9 @@ use warnings;
 use lib 't/lib';
 
 use Test::More;
-require HTML::FormatTableRowNroff;
+require HTML::FormatNroff::Table::Row::Nroff;
 
-my $table_row = HTML::FormatTableRowNroff->new(align => 'center');
+my $table_row = HTML::FormatNroff::Table::Row::Nroff->new(align => 'center');
 
 my $str1 = 'ghi';
 my $str2 = 'jkl';

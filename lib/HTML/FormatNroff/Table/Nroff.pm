@@ -1,11 +1,11 @@
-package HTML::FormatNroff::TableNroff;
+package HTML::FormatNroff::Table::Nroff;
 
 use 5.004;
 use strict;
 use warnings;
-use parent 'HTML::FormatTable';
+use parent 'HTML::FormatNroff::Table';
 
-use HTML::FormatNroff::Table::RowNroff;
+use HTML::FormatNroff::Table::Row::Nroff;
 use Carp;
 
 sub rnd {
@@ -150,7 +150,7 @@ sub add_row {
     if ( defined( $self->{"current_row"} ) ) {
         push( @{ $self->{'previous_rows'} }, $self->{"current_row"} );
     }
-    $self->{"current_row"} = new HTML::FormatTableRowNroff(%attr);
+    $self->{"current_row"} = HTML::FormatNroff::Table::Row::Nroff->new(%attr);
 }
 
 sub row_iterator {
@@ -177,8 +177,8 @@ HTML::FormatNroff::Table::Nroff - Format HTML Table as nroff
 
 =head1 SYNOPSIS
 
- require HTML::FormatNroff::Table::Nroff;
- $table =  new HTML::FormatNroff::Table::Nroff($self, %attr);
+    use HTML::FormatNroff::Table::Nroff;
+    my $table =  HTML::FormatNroff::Table::Nroff->(%attr);
 
 =head1 DESCRIPTION
 
@@ -188,20 +188,20 @@ formatter to process HTML tables.
 
 =head1 METHODS
 
-=head2 $width = $nroff_table->calculate_width($total, $num);
+=head2 calculate_width($total, $num);
 
 Calculate the width to use for the cell, using the following data:
 
-    $nroff_table->{'page_width'} is the number of inches available
-       on the page (6 if not set)
+$nroff_table->{'page_width'} is the number of inches available
+on the page (6 if not set)
 
-    $nroff_table->{'width'} specifies the percent of this available to
-       the table (e.g. "75%")
+$nroff_table->{'width'} specifies the percent of this available to
+the table (e.g. "75%")
 
-    $total is calculated by determining the maximum width cell for each
+$total is calculated by determining the maximum width cell for each
 column and then adding these maximums for each column.
 
-    $num is the maximum width cell for this column.
+$num is the maximum width cell for this column.
 
 The algorithm attempts to allocate the available table width (the percentage
 of the page width) to the rows as the percentage the max width of the column
@@ -215,36 +215,37 @@ characters is used ( aproximately the number/12 since 1em is about 12 points)
 The global HTML::FormatNroff::Table::Nroff::$_width_used is use to track the amount of
 page width used by previous columns.
 
-=head2 $nroff_table->attributes();
+=head2 attributes();
 
 Return tbl attributes associated with table itself as a string.
 expand will be specified if the table width is not explicitly specified
 or is not 100%. If centering is specified for the document region containing
 the table, then the table will have the center attribute.
 
-=head2 $nroff_table->output();
+=head2 output();
 
 Output the entire table, using the formatter associated with the table,
 unless there is no table content - just put out a .sp in this case.
 
 A table is output as follows:
 
- .sp
- .TS
- table attributes;
- row specification
- row specification.
- row
- row
- .TE
+     .sp
+     .TS
+     table attributes;
+     row specification
+     row specification.
+     row
+     row
+     .TE
 
-=head2 $nroff_table->add_row(%attr);
+=head2 add_row(%attr);
 
 Add a row to the table, with row attributes specified in %attr.
 
-=head2 $nroff_table->row_iterator($method, @args);
+=head2 row_iterator($method, @args);
 
 Apply $method to each row of the table, passing @args, as follows:
+
     $row->$method($last_row, @args);
 
 $last_row is set appropriately and used to signal to method
@@ -262,13 +263,3 @@ modify it under the same terms as Perl itself.
 Frederick Hirsch <f.hirsch@opengroup.org>
 
 =cut
-
-
-
-
-
-
-
-
-
-

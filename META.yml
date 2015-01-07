@@ -5,8 +5,6 @@ author:
 build_requires:
   File::Path: '0'
   File::Temp: '0'
-  HTML::FormatNroffSub: '0'
-  HTML::FormatTableRowNroff: '0'
   HTML::Parse: '0'
   Test::More: '0'
   lib: '0'
@@ -21,10 +19,6 @@ meta-spec:
 name: FormatNroff
 requires:
   Carp: '0'
-  HTML::FormatTable: '0'
-  HTML::FormatTableCellNroff: '0'
-  HTML::FormatTableNroff: '0'
-  HTML::FormatTableRow: '0'
   HTML::Formatter: '0'
   parent: '0'
   perl: '5.004'
@@ -33,4 +27,4 @@ requires:
 resources:
   homepage: https://github.com/naturalist/perl-html-formatnroff
   repository: https://github.com/naturalist/perl-html-formatnroff.git
-version: '0.5'
+version: '0.6'

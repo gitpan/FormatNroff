@@ -5,7 +5,7 @@ use warnings;
 use Carp;
 use File::Temp 'tempdir';
 
-use HTML::FormatNroffSub;
+use HTML::FormatNroff::Sub;
 use HTML::Parse;
 use File::Path;
 use Test::More;
@@ -60,7 +60,7 @@ sub run_test {
         return;
     }
 
-    my $formatter = new HTML::FormatNroffSub(
+    my $formatter = HTML::FormatNroff::Sub->new(
         name       => $self->{name},
         project    => $self->{project},
         man_date   => $self->{man_date},

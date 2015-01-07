@@ -5,10 +5,9 @@ use warnings;
 use 5.004;
 use parent 'HTML::Formatter';
 
-use HTML::Formatter;
-use HTML::FormatTableNroff;
+use HTML::FormatNroff::Table::Nroff;
 
-our $VERSION = 0.5;
+our $VERSION = 0.6;
 
 sub default_values {
     (
@@ -165,7 +164,7 @@ sub table_start {
         }
     }
 
-    $self->{'current_table'} = new HTML::FormatTableNroff( $self, %attr );
+    $self->{'current_table'} = HTML::FormatNroff::Table::Nroff->new( $self, %attr );
 }
 
 sub tr_start {
@@ -504,29 +503,29 @@ In both the META and DIV uses, case is ignored.
 
 =head1 METHODS
 
-=head2 $format_nroff-E<gt>dt_start();
+=head2 dt_start();
 
 Start a definition term C<E<lt>DTE<gt>>,
 using a temporary indent and vertical space.
 
-=head2 $format_nroff-E<gt>dd_start();
+=head2 dd_start();
 
 Start a data definition, C<E<lt>DDE<gt>>, using a temporary indent.
 
-=head2 $format_nroff-E<gt>configure($arg);
+=head2 configure($arg);
 
 Configure the nroff formatter, setting the attributes passed in the
 $arg attribute (hash reference)
 
-=head2 $format_nroff-E<gt>begin();
+=head2 begin();
 
 Begin HTML formatting.
 
-=head2 $format_nroff-E<gt>end();
+=head2 end();
 
 End HTML formatting.
 
-=head2 $format_nroff-E<gt>html_start();
+=head2 html_start();
 
 Process C<E<lt>HTMLE<gt>> start tag. Create the man page header based
 on saved attributes, unless the attribute
@@ -534,141 +533,141 @@ $format_nroff-E<gt>{'man_header'} is not set. This generates the following heade
 
     .TH "name" section "date" "project"
 
-=head2 $format_nroff-E<gt>font_start($font);
+=head2 font_start($font);
 
 Start the font specified by the $font character (e.g. B, or I).
 The font is remembered so nested fonts are handled correctly.
 
-=head2 $format_nroff-E<gt>font_end();
+=head2 font_end();
 
 End the current font, returning to the previous one.
 
-=head2 $format_nroff-E<gt>i_start();
+=head2 i_start();
 
 Process C<E<lt>IE<gt>> tag.
 
-=head2 $format_nroff-E<gt>i_end();
+=head2 i_end();
 
 Process C<E<lt>/IE<gt>> tag.
 
-=head2 $format_nroff-E<gt>b_start();
+=head2 b_start();
 
 Process C<E<lt>BE<gt>> tag.
 
-=head2 $format_nroff-E<gt>b_end();
+=head2 b_end();
 
 Process C<E<lt>/BE<gt>> tag.
 
-=head2 $format_nroff-E<gt>table_start($node);
+=head2 table_start($node);
 
 Process C<E<lt>TABLEE<gt>>, start table processing. $node
 is the current html_parser node.
 
     Pass on the $format_nroff->{'page_width'} to FormatTableNroff
 
-=head2 $format_nroff-E<gt>tr_start($node);
+=head2 tr_start($node);
 
 Process C<E<lt>TRE<gt>>, add table row.
 
-=head2 $format_nroff-E<gt>tr_end();
+=head2 tr_end();
 
 End the table row C<E<lt>/TRE<gt>>
 
-=head2 $format_nroff-E<gt>a_start();
+=head2 a_start();
 
 C<E<lt>AE<gt>> is ignored.
 
-=head2 $format_nroff-E<gt>a_end();
+=head2 a_end();
 
 C<E<lt>/AE<gt>> is ignored.
 
-=head2 $format_nroff-E<gt>td_start($node);
+=head2 td_start($node);
 
 Process C<E<lt>TDE<gt>>, add table cell
 
-=head2 $format_nroff-E<gt>td_end();
+=head2 td_end();
 
 Process C<E<lt>/TDE<gt>>, end table cell
 
-=head2 $format_nroff-E<gt>th_start($node);
+=head2 th_start($node);
 
 Process C<E<lt>THE<gt>>, add table header cell
 
-=head2 $format_nroff-E<gt>th_end();
+=head2 th_end();
 
 Process C<E<lt>/THE<gt>>, end table header cell
 
-=head2 $format_nroff-E<gt>table_end();
+=head2 table_end();
 
 Process C<E<lt>/TABLEE<gt>>. Actually output entire table.
 
-=head2 $format_nroff-E<gt>p_start();
+=head2 p_start();
 
 Process C<E<lt>PE<gt>>.
 
-=head2 $format_nroff-E<gt>p_end();
+=head2 p_end();
 
 Process C<E<lt>/PE<gt>> by doing nothing.
 
-=head2 $format_nroff-E<gt>goto_lm()
+=head2 goto_lm()
 
 goto_lm does nothing.
 
-=head2 $format_nroff-E<gt>br_start();
+=head2 br_start();
 
 Process C<E<lt>BRE<gt>>.
 
-=head2 $format_nroff-E<gt>hr_start();
+=head2 hr_start();
 
 Process C<E<lt>HRE<gt>>
 
-=head2 $format_nroff-E<gt>header_start();
+=head2 header_start();
 
 Process C<E<lt>H?E<gt>> simply using .SH
 
-=head2 $format_nroff-E<gt>header_end();
+=head2 header_end();
 
 Process C<E<lt>/H?E<gt>> simply outputing newline
 
-=head2 $format_nroff-E<gt>out($text);
+=head2 out($text);
 
 Output text.
 
-=head2 $format_nroff-E<gt>pre_out($pre);
+=head2 pre_out($pre);
 
 Output C<E<lt>PREE<gt>> text.
 
-=head2 $format_nroff-E<gt>nl($cnt);
+=head2 nl($cnt);
 
 Output newline.
 
-=head2 $format_nroff-E<gt>adjust_lm($indent);
+=head2 adjust_lm($indent);
 
 adjust indent (left margin)
 
-=head2 $format_nroff-E<gt>adjust_rm();
+=head2 adjust_rm();
 
 not used.
 
-=head2 $format_nroff-E<gt>bullet($tag);
+=head2 bullet($tag);
 
 output the bullet, using a temporary indent and the $tag
 
-=head2 $format_nroff-E<gt>textflow($node);
+=head2 textflow($node);
 
 Output text or add it to table if currently inside a table
 If centered add .ce unless inside a table, if underlined add .ul,
 if the left margin is adjusted use a .ti for every new line.
 
-=head2 $format_nroff-E<gt>blockquote_start($node);
+=head2 blockquote_start($node);
 
 Start C<E<lt>BLOCKQUOTEE<gt>>, by making a new paragraph, and indenting.
 
-=head2 $format_nroff-E<gt>blockquote_end($node);
+=head2 blockquote_end($node);
 
 C<E<lt>/BLOCKQUOTEE<gt>>, by ending indent, and making a new paragraph
 
-=head2 $format_nroff-E<gt>div_start($node);
+=head2 div_start($node);
 
 Process DIV
 
@@ -685,7 +684,7 @@ In the header you probably should use
         is used to ignore all subsequent content until the next
     <META NAME="nroff-control" CONTENT="ignore_end">
 
-=head2 $format_nroff-E<gt>meta_start($node);
+=head2 meta_start($node);
 
 Process C<E<lt>METAE<gt>> tag.
 
@@ -704,12 +703,7 @@ META. In the body, you should use:
 
 =head1 SEE ALSO
 
-L<HTML::Formatter>,
-L<HTML::FormatTableCell>,
-L<HTML::FormatTableCellNroff>,
-L<HTML::FormatTableNroff>,
-L<HTML::FormatTableRow>,
-L<HTML::FormatTableRowNroff>
+L<HTML::Formatter>
 
 =head1 COPYRIGHT
 

@@ -3,9 +3,9 @@ use warnings;
 use lib 't/lib';
 
 use Test::More;
-use HTML::FormatTableCellNroff;
+use HTML::FormatNroff::Table::Cell::Nroff;
 
-my $table_cell = HTML::FormatTableCellNroff->new( colspan => 2, align => 'center' );
+my $table_cell = HTML::FormatNroff::Table::Cell::Nroff->new( colspan => 2, align => 'center' );
 
 is $table_cell->colspan,   2,        "colspan ok";
 is $table_cell->alignment, 'center', 'alignment ok';

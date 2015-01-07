@@ -65,50 +65,76 @@ HTML::FormatNroff::Table::Cell - Format HTML Table
 
 =head1 SYNOPSIS
 
- use HTML::FormatNroff::Table::Cell;
- use parent 'HTML::FormatNroff::Table::Cell';
+    use HTML::FormatNroff::Table::Cell;
+    use parent 'HTML::FormatNroff::Table::Cell';
 
 =head1 DESCRIPTION
 
 The HTML::FormatNroff::Table::Cell is a base class used to record information
-about a table entry as part of FormatTable processing. It is necessary
-to record information for formatting into languages such as nroff tbl
-which require formatting information ahead of the table data.
+about a table entry as part of FormatTable processing. It is necessary to
+record information for formatting into languages such as nroff tbl which
+require formatting information ahead of the table data.
 
 =head1 METHODS
 
-=head2 $cell = HTML::FormatNroff::Table::Cell->(%attr);
+=head2 new
 
-Since FormatTableCell is a base class, a derived class constructor
-such as L<FormatTableCellNroff> should be called.
+    my $cell = HTML::FormatNroff::Table::Cell->new(%attr);
+
+Since this is a base class, a derived class constructor such as
+L<HTML::FormatNroff::Table::CellNroff> should be called.
 
 The following attributes are supported:
 
-    header - is a header (default is '')
-    nowrap - do not wrap if defined
-    rowspan - number of rows cell spans (default is 1)
-    colspan - number of columns cell spans (default is 1)
-    align - alignment of cell contents (default is 'left')
-    valign - vertical alignment of cell (default is 'middle')
-    contents - contents of cell (default is '')
+=over
 
-=head2 $cell->add_text($text);
+=item header
+
+is a header (default is '')
+
+=item nowrap
+
+do not wrap if defined
+
+=item rowspan
+
+number of rows cell spans (default is 1)
+
+=item colspan
+
+number of columns cell spans (default is 1)
+
+=item align
+
+alignment of cell contents (default is 'left')
+
+=item valign
+
+vertical alignment of cell (default is 'middle')
+
+=item contents
+
+contents of cell (default is '')
+
+=back
+
+=head2 add_text($text);
 
 Add additional contents to cell.
 
-=head2 $alignment = $cell->alignment();
+=head2 alignment();
 
 Return cell alignment.
 
-=head2 $colspan = $cell->colspan();
+=head2 colspan();
 
 Return cell colspan.
 
-=head2 $text = $cell->text();
+=head2 text();
 
 Return cell text.
 
-=head2 $width = $cell->width();
+=head2 width();
 
 Return cell width in characters.
 

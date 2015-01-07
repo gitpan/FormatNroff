@@ -4,7 +4,6 @@ use warnings;
 use lib 't/lib';
 
 use Test::More;
-use HTML::FormatNroff;
 use HTML::Parse;
 use NRoffTesting;
 

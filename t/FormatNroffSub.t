@@ -3,7 +3,6 @@ use warnings;
 use lib 't/lib';
 
 use Test::More;
-use HTML::FormatNroffSub;
 use HTML::Parse;
 use NRoffTesting;
 

@@ -1,9 +1,9 @@
-package HTML::FormatNroff::Table::CellNroff;
+package HTML::FormatNroff::Table::Cell::Nroff;
 
 use 5.004;
 use strict;
 use warnings;
-use parent HTML::FormatNroff::Table::Cell;
+use parent 'HTML::FormatNroff::Table::Cell';
 use Carp;
 
 my $_max_tbl_cell = 300;
@@ -68,28 +68,28 @@ __END__
 
 =head1 NAME
 
-HTML::FormatNroff::Table::CellNroff - Format HTML Table entry
+HTML::FormatNroff::Table::Cell::Nroff - Format HTML Table entry
 
 =head1 SYNOPSIS
 
-    require HTML::FormatNroff::Table::CellNroff;
-    $cell = new HTML::FormatNroff::Table::CellNroff(%attr);
+    use HTML::FormatNroff::Table::Cell::Nroff;
+    my $cell = new HTML::FormatNroff::Table::Cell::Nroff(%attr);
 
 =head1 DESCRIPTION
 
-The HTML::FormatNroff::Table::CellNroff is used to record information
-about a table entry and produce format information about the entry.
-It is used by FormatTableNroff to process HTML tables.
+The HTML::FormatNroff::Table::Cell::Nroff is used to record information about a
+table entry and produce format information about the entry.  It is used by
+FormatTableNroff to process HTML tables.
 
 =head1 METHODS
 
-=head2 $nroff_cell->format_str($width);
+=head2 format_str($width);
 
-Produce a tbl format specification for the current cell, consisting of
-an alignment character, width (in inches), and any subsequent colspan
+Produce a tbl format specification for the current cell, consisting of an
+alignment character, width (in inches), and any subsequent colspan
 specifications. An example is "cw(2i)".
 
-=head2 $nroff_cell->output($formatter);
+=head2 output($formatter);
 
 Output a table cell entry using the formatter defined by $formatter.
 
@@ -101,12 +101,12 @@ Output a table cell entry using the formatter defined by $formatter.
     .nf
     }T
 
-construct is used to format text inside a cell. Bold is used for a table
+Construct is used to format text inside a cell. Bold is used for a table
 header.
 
 =head1 SEE ALSO
 
-L<HTML::FormatNroff>,
+L<HTML::FormatNroff>
 
 =head1 COPYRIGHT
 
